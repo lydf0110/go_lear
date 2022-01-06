@@ -50,24 +50,31 @@ func HomeWorkThr(res http.ResponseWriter, req *http.Request)  {
 	}
 	//fmt.Println(remoteAddr)
 
-	host,port ,err := net.SplitHostPort(req.RemoteAddr)
-	//fmt.Println(host,port,err)
-	if err != nil {
-		fmt.Printf(" error %s\n", err)
+	host,port, err := net.SplitHostPort(req.RemoteAddr)
+	fmt.Println(host,port,err)
+	if err == nil {
+		if net.ParseIP(host) != nil{
+			fmt.Printf("host is:%s\nport is:%s\n", host, port)
+		}
 	}else{
-		fmt.Printf("host is:%s\nport is:%s\n", host, port)
+		fmt.Printf("error :%s\n", err.Error())
 	}
 	fmt.Printf("status is :%v\n", http.StatusOK)
 
 }
 
+func HomeHealthz (res http.ResponseWriter, req *http.Request) {
+	res.Write([]byte("test_healthz"))
+	res.WriteHeader(200)
 
+}
 
 
 func TestHttpReque(t *testing.T) {
 	http.HandleFunc("/homefir", HomeWork)
 	http.HandleFunc("/homesec", HomeWorkSec)
 	http.HandleFunc("/homethr", HomeWorkThr)
+	http.HandleFunc("/healthz", HomeHealthz)
 	http.ListenAndServe(":8080", nil)
 }
 
