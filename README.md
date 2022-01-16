@@ -4,4 +4,7 @@
 
 #本地镜像编辑：docker build -t golear_test:v0.0.1 .
 
-# docker 
+#docker 利用nsenter查看ip信息
+
+#docker_pid=$(docker ps   ｜ grep golear_test | awk '{print $1}')
+# nsenter -t ($docker inspect $docker_pid | grep -i pid) -n ip a
