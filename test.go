@@ -1,12 +1,10 @@
-package http_test
+package main
 
 import (
 	"fmt"
 	"net"
 	"net/http"
 	"os"
-	"testing"
-
 )
 
 func HomeWork(res http.ResponseWriter, req *http.Request) {
@@ -70,7 +68,9 @@ func HomeHealthz (res http.ResponseWriter, req *http.Request) {
 }
 
 
-func TestHttpReque(t *testing.T) {
+
+
+func main() {
 	http.HandleFunc("/homefir", HomeWork)
 	http.HandleFunc("/homesec", HomeWorkSec)
 	http.HandleFunc("/homethr", HomeWorkThr)
