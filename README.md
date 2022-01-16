@@ -7,4 +7,4 @@
 #docker 利用nsenter查看ip信息
 
 #docker_pid=$(docker ps   ｜ grep golear_test | awk '{print $1}')
-# nsenter -t ($docker inspect $docker_pid | grep -i pid) -n ip a
+#nsenter -t ($docker inspect $docker_pid | grep -i pid) -n ip a
