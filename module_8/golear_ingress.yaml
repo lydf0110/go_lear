@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
+    #单独创建了一个ingress-cm，处理无法实现的代理功能
     kubernetes.io/ingress.class: ingress-test-inner-slb
   labels:
     app.kubernetes.io/name: go-lear-pro-api
@@ -20,6 +21,11 @@ spec:
               serviceName: go-lear-pro-api
               servicePort: 8080
             path: /healthz
+  #tls 利用openssl创建了一个本机tls证书测试
+  tls:
+    - hosts:
+        - go-lear-pro-api.test.com
+      secretName: go-lear-pro-api.test.com-secret-2022
 status:
   loadBalancer:
     ingress:
