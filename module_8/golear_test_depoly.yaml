@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    enabled_deploy_mode_update: "true"
+    enablepodhealthcheck: "true"
+  labels:
+    app: go-lear-pro-api
+  name: go-lear-pro-api
+  namespace: test-service
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: go-lear-pro-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - go-lear-pro-api
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - env:
+        - name: APOLLO_ENV_STAGE
+          value: prod
+        - name: NACOS_HOST
+          value: http://nacos-headless:8848/
+        - name: NACOS_NAMESPACE
+          value: c595fad7-24a4-4b95-99bb-53d41e3db2fa
+        - name: NACOS_PASSWORD
+          value: nacosConfig
+        - name: NACOS_USERNAME
+          value: nacos
+        - name: g7_logs_k8s-cmtx-logs-topic
+          value: stdout
+        - name: g7_logs_k8s-cmtx-logs-topic_tags
+          value: env=test,product=go-lear-pro-api,appid=go-lear-pro-api
+        image: golear-test:v0.0.2
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - sh /tmp/preStop.sh
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          httpGet:
+            path: /healthz
+            port: 8080
+            scheme: HTTP
+          timeoutSeconds: 2
+        name: go-lear-pro-api
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 2
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 300Mi
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities: {}
+          privileged: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
