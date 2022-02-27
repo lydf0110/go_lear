@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: ingress-test-inner-slb
+  labels:
+    app.kubernetes.io/name: go-lear-pro-api
+  name: go-lear-pro-api
+  namespace: test-service
+spec:
+  rules:
+    - host: go-lear-pro-api.test.com
+      http:
+        paths:
+          - backend:
+              serviceName: go-lear-pro-api
+              servicePort: 8080
+            path: /
+status:
+  loadBalancer:
+    ingress:
+      - ip: 172.21.3.123
