@@ -16,6 +16,10 @@ spec:
               serviceName: go-lear-pro-api
               servicePort: 8080
             path: /
+          - backend:
+              serviceName: go-lear-pro-api
+              servicePort: 8080
+            path: /healthz
 status:
   loadBalancer:
     ingress:
