@@ -13,7 +13,7 @@ func recordMetrics() {
 	go func() {
 		for {
 			opsProcessed.Inc()
-			time.Sleep(2 * time.Second)
+			time.Sleep(4 * time.Second)
 		}
 	}()
 }
@@ -22,6 +22,8 @@ var (
 	opsProcessed = promauto.NewCounter(prometheus.CounterOpts{
 		Name: "go_gc_duration_seconds"})
 )
+
+
 
 func main() {
 	recordMetrics()
