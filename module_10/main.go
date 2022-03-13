@@ -20,7 +20,7 @@ func recordMetrics() {
 
 var (
 	opsProcessed = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "myapp_processed_ops_total",
+		Name: "go_gc_duration_seconds",
 		Help: "The total number of processed events",
 	})
 )

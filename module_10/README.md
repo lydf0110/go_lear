@@ -8,4 +8,6 @@
 这个镜像为：0.0.3 版本上传至内部集群；
 
 metrics信息： ![img.png](img.png)
+
 4、本地查询
+![img_2.png](img_2.png)
