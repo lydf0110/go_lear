@@ -4,6 +4,8 @@
 
 #本地镜像编辑：docker build -t golear_test:v0.0.1 .
 
+#老师都已写了。这个时间 我就搞了一个sleep 时间
+
 3、将 HTTPServer 部署至测试集群，并完成 Prometheus 配置；
 这个镜像为：0.0.3 版本上传至内部集群；
 
