@@ -13,6 +13,6 @@ spec:
         - port: 80
       route:
         - destination:
-            host: simple.test-services.svc.cluster.local
+            host: test-http.test-services.svc.cluster.local
             port:
               number: 80
